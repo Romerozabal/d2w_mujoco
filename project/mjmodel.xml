@@ -1,0 +1,650 @@
+<mujoco model="d2w_cables">
+    <compiler angle="radian" meshdir="asset/" texturedir="asset/" />
+    <option timestep="0.001" jacobian="dense" />
+    <size njmax="1000" nconmax="300" nstack="500000" />
+    <visual>
+        <global offwidth="800" offheight="800" />
+        <quality shadowsize="4096" />
+        <map stiffness="700" force="0.1" fogstart="10" fogend="15" zfar="30" shadowscale="0.5" />
+        <rgba haze="0.15 0.25 0.35 1" />
+    </visual>
+    <statistic meansize="0.05" extent="1.5" />
+    <default class="main">
+        <general ctrllimited="true" ctrlrange="-1 1" />
+        <default class="body">
+            <joint limited="true" solimplimit="0 0.99 0.01 0.5 2" stiffness="1" armature="0.01" damping="0.2" />
+            <geom type="capsule" condim="1" friction="0.7 0.005 0.0001" solref="0.015 1" solimp="0.9 0.99 0.003 0.5 2" material="body" />
+            <default class="big_joint">
+                <joint stiffness="10" damping="5" />
+                <default class="big_stiff_joint">
+                    <joint stiffness="20" />
+                </default>
+            </default>
+        </default>
+    </default>
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072" />
+        <texture type="2d" name="texplane" builtin="checker" mark="cross" rgb1="0.2 0.3 0.4" rgb2="0.1 0.15 0.2" markrgb="0.8 0.8 0.8" width="512" height="512" />
+        <texture type="2d" name="texcarpet" file="carpet.png" />
+        <texture type="2d" name="texsponge" file="sponge.png" />
+        <texture type="cube" name="texmarble" file="marble.png" />
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072" />
+        <texture type="cube" name="body" builtin="flat" mark="cross" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" width="127" height="762" />
+        <texture type="2d" name="grid" builtin="checker" rgb1="0.1 0.2 0.3" rgb2="0.2 0.3 0.4" width="512" height="512" />
+        <material name="matplane" texture="texplane" texuniform="true" reflectance="0.3" />
+        <material name="matcarpet" texture="texcarpet" />
+        <material name="matsponge" texture="texsponge" specular="0.3" />
+        <material name="matmarble" texture="texmarble" rgba="0.7 0.7 0.7 1" />
+        <material name="body" texture="body" texuniform="true" rgba="0.8 0.6 0.4 1" />
+        <material name="grid" texture="grid" texuniform="true" reflectance="0.2" />
+    </asset>
+    <worldbody>
+        <geom name="ground" size="0 0 1" type="plane" condim="1" material="matplane" />
+        <light pos="0 0 5" dir="0 0 -1" directional="true" castshadow="false" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1" />
+        <light pos="0 0 4" dir="0 0 -1" directional="true" diffuse="0.6 0.6 0.6" specular="0.2 0.2 0.2" />
+        <body name="b_winch_5" pos="0 0 0">
+            <inertial pos="0 0 0" mass="400" diaginertia="38.6667 38.6667 66.6667" />
+            <geom size="0.5 0.5 0.2" type="box" />
+        </body>
+        <body name="torso" childclass="body" pos="0 0 1.4">
+            <inertial pos="0 0 0" quat="0.707107 0.707107 0 0" mass="0.5" diaginertia="0.0012 0.0012 0.0012" />
+            <joint name="root" type="free" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0" />
+            <geom name="box" size="0.06 0.06 0.06" quat="0.707107 0.707107 0 0" type="box" />
+            <camera name="back" pos="-3 0 1" quat="0.601501 0.371748 -0.371748 -0.601501" mode="trackcom" />
+            <camera name="side" pos="0 -3 1" quat="0.850651 0.525731 0 0" mode="trackcom" />
+            <light name="top" pos="0 0 1" dir="0 0 -1" mode="trackcom" />
+            <body name="R0B0" pos="0 0.1 0">
+                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                <geom name="R0G0" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                <body name="R0B1" pos="0.04 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <joint name="R0J0_1" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <joint name="R0J1_1" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <geom name="R0G1" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                    <body name="R0B2" pos="0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="R0J0_2" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <joint name="R0J1_2" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <geom name="R0G2" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                        <body name="R0B3" pos="0.04 0 0">
+                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                            <joint name="R0J0_3" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <joint name="R0J1_3" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <geom name="R0G3" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                            <body name="R0B4" pos="0.04 0 0">
+                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                <joint name="R0J0_4" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <joint name="R0J1_4" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <geom name="R0G4" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                <body name="R0B5" pos="0.04 0 0">
+                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                    <joint name="R0J0_5" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <joint name="R0J1_5" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <geom name="R0G5" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                    <body name="R0B6" pos="0.04 0 0">
+                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                        <joint name="R0J0_6" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <joint name="R0J1_6" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <geom name="R0G6" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                        <body name="R0B7" pos="0.04 0 0">
+                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                            <joint name="R0J0_7" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <joint name="R0J1_7" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <geom name="R0G7" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                            <body name="R0B8" pos="0.04 0 0">
+                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                <joint name="R0J0_8" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <joint name="R0J1_8" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <geom name="R0G8" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                <body name="R0B9" pos="0.04 0 0">
+                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                    <joint name="R0J0_9" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <joint name="R0J1_9" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <geom name="R0G9" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                    <body name="R0B10" pos="0.04 0 0">
+                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                        <joint name="R0J0_10" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <joint name="R0J1_10" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <geom name="R0G10" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                        <body name="R0B11" pos="0.04 0 0">
+                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                            <joint name="R0J0_11" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <joint name="R0J1_11" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <geom name="R0G11" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                            <body name="R0B12" pos="0.04 0 0">
+                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                <joint name="R0J0_12" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <joint name="R0J1_12" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <geom name="R0G12" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                <body name="R0B13" pos="0.04 0 0">
+                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                    <joint name="R0J0_13" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <joint name="R0J1_13" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <geom name="R0G13" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                    <body name="R0B14" pos="0.04 0 0">
+                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                        <joint name="R0J0_14" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <joint name="R0J1_14" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <geom name="R0G14" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                        <body name="R0B15" pos="0.04 0 0">
+                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                            <joint name="R0J0_15" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <joint name="R0J1_15" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <geom name="R0G15" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                            <body name="R0B16" pos="0.04 0 0">
+                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                <joint name="R0J0_16" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <joint name="R0J1_16" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <geom name="R0G16" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                <body name="R0B17" pos="0.04 0 0">
+                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                    <joint name="R0J0_17" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <joint name="R0J1_17" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <geom name="R0G17" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                    <body name="R0B18" pos="0.04 0 0">
+                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                        <joint name="R0J0_18" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <joint name="R0J1_18" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <geom name="R0G18" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                        <body name="R0B19" pos="0.04 0 0">
+                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                            <joint name="R0J0_19" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <joint name="R0J1_19" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <geom name="R0G19" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                            <body name="R0B20" pos="0.04 0 0">
+                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                <joint name="R0J0_20" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <joint name="R0J1_20" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <geom name="R0G20" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                <body name="R0B21" pos="0.04 0 0">
+                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                    <joint name="R0J0_21" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <joint name="R0J1_21" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <geom name="R0G21" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                    <body name="R0B22" pos="0.04 0 0">
+                                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                        <joint name="R0J0_22" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                        <joint name="R0J1_22" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                        <geom name="R0G22" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                        <body name="R0B23" pos="0.04 0 0">
+                                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                            <joint name="R0J0_23" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                            <joint name="R0J1_23" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                            <geom name="R0G23" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                            <body name="R0B24" pos="0.04 0 0">
+                                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                                <joint name="R0J0_24" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                                <joint name="R0J1_24" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                                <geom name="R0G24" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                            </body>
+                                                                                                        </body>
+                                                                                                    </body>
+                                                                                                </body>
+                                                                                            </body>
+                                                                                        </body>
+                                                                                    </body>
+                                                                                </body>
+                                                                            </body>
+                                                                        </body>
+                                                                    </body>
+                                                                </body>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="R1B1" pos="0 0.1 0" quat="0 0 1 0">
+                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                <geom name="R1G1" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                <body name="R1B2" pos="0.04 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <joint name="R1J0_2" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <joint name="R1J1_2" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <geom name="R1G2" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                    <body name="R1B3" pos="0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="R1J0_3" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <joint name="R1J1_3" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <geom name="R1G3" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                        <body name="R1B4" pos="0.04 0 0">
+                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                            <joint name="R1J0_4" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <joint name="R1J1_4" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <geom name="R1G4" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                            <body name="R1B5" pos="0.04 0 0">
+                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                <joint name="R1J0_5" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <joint name="R1J1_5" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <geom name="R1G5" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                <body name="R1B6" pos="0.04 0 0">
+                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                    <joint name="R1J0_6" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <joint name="R1J1_6" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <geom name="R1G6" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                    <body name="R1B7" pos="0.04 0 0">
+                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                        <joint name="R1J0_7" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <joint name="R1J1_7" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <geom name="R1G7" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                        <body name="R1B8" pos="0.04 0 0">
+                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                            <joint name="R1J0_8" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <joint name="R1J1_8" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <geom name="R1G8" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                            <body name="R1B9" pos="0.04 0 0">
+                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                <joint name="R1J0_9" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <joint name="R1J1_9" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <geom name="R1G9" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                <body name="R1B10" pos="0.04 0 0">
+                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                    <joint name="R1J0_10" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <joint name="R1J1_10" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <geom name="R1G10" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                    <body name="R1B11" pos="0.04 0 0">
+                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                        <joint name="R1J0_11" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <joint name="R1J1_11" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <geom name="R1G11" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                        <body name="R1B12" pos="0.04 0 0">
+                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                            <joint name="R1J0_12" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <joint name="R1J1_12" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <geom name="R1G12" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                            <body name="R1B13" pos="0.04 0 0">
+                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                <joint name="R1J0_13" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <joint name="R1J1_13" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <geom name="R1G13" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                <body name="R1B14" pos="0.04 0 0">
+                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                    <joint name="R1J0_14" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <joint name="R1J1_14" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <geom name="R1G14" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                    <body name="R1B15" pos="0.04 0 0">
+                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                        <joint name="R1J0_15" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <joint name="R1J1_15" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <geom name="R1G15" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                        <body name="R1B16" pos="0.04 0 0">
+                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                            <joint name="R1J0_16" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <joint name="R1J1_16" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <geom name="R1G16" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                            <body name="R1B17" pos="0.04 0 0">
+                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                <joint name="R1J0_17" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <joint name="R1J1_17" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <geom name="R1G17" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                <body name="R1B18" pos="0.04 0 0">
+                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                    <joint name="R1J0_18" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <joint name="R1J1_18" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <geom name="R1G18" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                    <body name="R1B19" pos="0.04 0 0">
+                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                        <joint name="R1J0_19" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <joint name="R1J1_19" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <geom name="R1G19" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                        <body name="R1B20" pos="0.04 0 0">
+                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                            <joint name="R1J0_20" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <joint name="R1J1_20" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <geom name="R1G20" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                            <body name="R1B21" pos="0.04 0 0">
+                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                <joint name="R1J0_21" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <joint name="R1J1_21" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <geom name="R1G21" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                <body name="R1B22" pos="0.04 0 0">
+                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                    <joint name="R1J0_22" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <joint name="R1J1_22" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <geom name="R1G22" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                    <body name="R1B23" pos="0.04 0 0">
+                                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                        <joint name="R1J0_23" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                        <joint name="R1J1_23" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                        <geom name="R1G23" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                        <body name="R1B24" pos="0.04 0 0">
+                                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                            <joint name="R1J0_24" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                            <joint name="R1J1_24" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                            <geom name="R1G24" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                        </body>
+                                                                                                    </body>
+                                                                                                </body>
+                                                                                            </body>
+                                                                                        </body>
+                                                                                    </body>
+                                                                                </body>
+                                                                            </body>
+                                                                        </body>
+                                                                    </body>
+                                                                </body>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+                <body name="R1B0" pos="-0.04 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <joint name="R1J0_0" pos="0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <joint name="R1J1_0" pos="0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <geom name="R1G0" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                </body>
+            </body>
+            <body name="R2B2" pos="0 -0.1 0" quat="0 0 1 0">
+                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                <geom name="R2G2" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                <body name="R2B3" pos="0.04 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <joint name="R2J0_3" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <joint name="R2J1_3" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <geom name="R2G3" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                    <body name="R2B4" pos="0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="R2J0_4" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <joint name="R2J1_4" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <geom name="R2G4" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                        <body name="R2B5" pos="0.04 0 0">
+                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                            <joint name="R2J0_5" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <joint name="R2J1_5" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <geom name="R2G5" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                            <body name="R2B6" pos="0.04 0 0">
+                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                <joint name="R2J0_6" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <joint name="R2J1_6" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <geom name="R2G6" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                <body name="R2B7" pos="0.04 0 0">
+                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                    <joint name="R2J0_7" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <joint name="R2J1_7" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <geom name="R2G7" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                    <body name="R2B8" pos="0.04 0 0">
+                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                        <joint name="R2J0_8" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <joint name="R2J1_8" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <geom name="R2G8" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                        <body name="R2B9" pos="0.04 0 0">
+                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                            <joint name="R2J0_9" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <joint name="R2J1_9" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <geom name="R2G9" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                            <body name="R2B10" pos="0.04 0 0">
+                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                <joint name="R2J0_10" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <joint name="R2J1_10" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <geom name="R2G10" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                <body name="R2B11" pos="0.04 0 0">
+                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                    <joint name="R2J0_11" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <joint name="R2J1_11" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <geom name="R2G11" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                    <body name="R2B12" pos="0.04 0 0">
+                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                        <joint name="R2J0_12" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <joint name="R2J1_12" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <geom name="R2G12" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                        <body name="R2B13" pos="0.04 0 0">
+                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                            <joint name="R2J0_13" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <joint name="R2J1_13" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <geom name="R2G13" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                            <body name="R2B14" pos="0.04 0 0">
+                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                <joint name="R2J0_14" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <joint name="R2J1_14" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <geom name="R2G14" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                <body name="R2B15" pos="0.04 0 0">
+                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                    <joint name="R2J0_15" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <joint name="R2J1_15" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <geom name="R2G15" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                    <body name="R2B16" pos="0.04 0 0">
+                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                        <joint name="R2J0_16" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <joint name="R2J1_16" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <geom name="R2G16" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                        <body name="R2B17" pos="0.04 0 0">
+                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                            <joint name="R2J0_17" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <joint name="R2J1_17" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <geom name="R2G17" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                            <body name="R2B18" pos="0.04 0 0">
+                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                <joint name="R2J0_18" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <joint name="R2J1_18" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <geom name="R2G18" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                <body name="R2B19" pos="0.04 0 0">
+                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                    <joint name="R2J0_19" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <joint name="R2J1_19" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <geom name="R2G19" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                    <body name="R2B20" pos="0.04 0 0">
+                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                        <joint name="R2J0_20" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <joint name="R2J1_20" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <geom name="R2G20" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                        <body name="R2B21" pos="0.04 0 0">
+                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                            <joint name="R2J0_21" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <joint name="R2J1_21" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <geom name="R2G21" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                            <body name="R2B22" pos="0.04 0 0">
+                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                <joint name="R2J0_22" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <joint name="R2J1_22" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <geom name="R2G22" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                <body name="R2B23" pos="0.04 0 0">
+                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                    <joint name="R2J0_23" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <joint name="R2J1_23" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <geom name="R2G23" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                    <body name="R2B24" pos="0.04 0 0">
+                                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                        <joint name="R2J0_24" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                        <joint name="R2J1_24" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                        <geom name="R2G24" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                    </body>
+                                                                                                </body>
+                                                                                            </body>
+                                                                                        </body>
+                                                                                    </body>
+                                                                                </body>
+                                                                            </body>
+                                                                        </body>
+                                                                    </body>
+                                                                </body>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+                <body name="R2B1" pos="-0.04 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <joint name="R2J0_1" pos="0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <joint name="R2J1_1" pos="0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <geom name="R2G1" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                    <body name="R2B0" pos="-0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="R2J0_0" pos="0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <joint name="R2J1_0" pos="0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <geom name="R2G0" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                    </body>
+                </body>
+            </body>
+            <body name="R3B3" pos="0 -0.1 0">
+                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                <geom name="R3G3" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                <body name="R3B4" pos="0.04 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <joint name="R3J0_4" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <joint name="R3J1_4" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <geom name="R3G4" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                    <body name="R3B5" pos="0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="R3J0_5" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <joint name="R3J1_5" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <geom name="R3G5" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                        <body name="R3B6" pos="0.04 0 0">
+                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                            <joint name="R3J0_6" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <joint name="R3J1_6" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <geom name="R3G6" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                            <body name="R3B7" pos="0.04 0 0">
+                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                <joint name="R3J0_7" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <joint name="R3J1_7" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                <geom name="R3G7" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                <body name="R3B8" pos="0.04 0 0">
+                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                    <joint name="R3J0_8" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <joint name="R3J1_8" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                    <geom name="R3G8" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                    <body name="R3B9" pos="0.04 0 0">
+                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                        <joint name="R3J0_9" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <joint name="R3J1_9" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                        <geom name="R3G9" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                        <body name="R3B10" pos="0.04 0 0">
+                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                            <joint name="R3J0_10" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <joint name="R3J1_10" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                            <geom name="R3G10" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                            <body name="R3B11" pos="0.04 0 0">
+                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                <joint name="R3J0_11" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <joint name="R3J1_11" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                <geom name="R3G11" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                <body name="R3B12" pos="0.04 0 0">
+                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                    <joint name="R3J0_12" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <joint name="R3J1_12" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                    <geom name="R3G12" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                    <body name="R3B13" pos="0.04 0 0">
+                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                        <joint name="R3J0_13" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <joint name="R3J1_13" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                        <geom name="R3G13" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                        <body name="R3B14" pos="0.04 0 0">
+                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                            <joint name="R3J0_14" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <joint name="R3J1_14" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                            <geom name="R3G14" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                            <body name="R3B15" pos="0.04 0 0">
+                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                <joint name="R3J0_15" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <joint name="R3J1_15" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                <geom name="R3G15" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                <body name="R3B16" pos="0.04 0 0">
+                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                    <joint name="R3J0_16" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <joint name="R3J1_16" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                    <geom name="R3G16" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                    <body name="R3B17" pos="0.04 0 0">
+                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                        <joint name="R3J0_17" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <joint name="R3J1_17" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                        <geom name="R3G17" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                        <body name="R3B18" pos="0.04 0 0">
+                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                            <joint name="R3J0_18" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <joint name="R3J1_18" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                            <geom name="R3G18" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                            <body name="R3B19" pos="0.04 0 0">
+                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                <joint name="R3J0_19" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <joint name="R3J1_19" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                <geom name="R3G19" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                <body name="R3B20" pos="0.04 0 0">
+                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                    <joint name="R3J0_20" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <joint name="R3J1_20" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                    <geom name="R3G20" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                    <body name="R3B21" pos="0.04 0 0">
+                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                        <joint name="R3J0_21" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <joint name="R3J1_21" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                        <geom name="R3G21" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                        <body name="R3B22" pos="0.04 0 0">
+                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                            <joint name="R3J0_22" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <joint name="R3J1_22" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                            <geom name="R3G22" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                            <body name="R3B23" pos="0.04 0 0">
+                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                <joint name="R3J0_23" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <joint name="R3J1_23" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                <geom name="R3G23" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                <body name="R3B24" pos="0.04 0 0">
+                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                                                                    <joint name="R3J0_24" pos="-0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <joint name="R3J1_24" pos="-0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                                                                                                    <geom name="R3G24" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                                                                                                </body>
+                                                                                            </body>
+                                                                                        </body>
+                                                                                    </body>
+                                                                                </body>
+                                                                            </body>
+                                                                        </body>
+                                                                    </body>
+                                                                </body>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+                <body name="R3B2" pos="-0.04 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <joint name="R3J0_2" pos="0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <joint name="R3J1_2" pos="0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                    <geom name="R3G2" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                    <body name="R3B1" pos="-0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="R3J0_1" pos="0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <joint name="R3J1_1" pos="0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                        <geom name="R3G1" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                        <body name="R3B0" pos="-0.04 0 0">
+                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                            <joint name="R3J0_0" pos="0.02 0 0" axis="0 1 0" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <joint name="R3J1_0" pos="0.02 0 0" axis="0 0 1" group="3" limited="false" solimplimit="0.9 0.95 0.001 0.5 2" stiffness="0" armature="0" damping="0.005" />
+                            <geom name="R3G0" size="0.01 0.015" quat="0.707107 0 0.707107 0" condim="3" friction="1 0.005 0.0001" solref="0.02 1" solimp="0.9 0.95 0.001 0.5 2" rgba="0.8 0.2 0.1 1" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+</mujoco>

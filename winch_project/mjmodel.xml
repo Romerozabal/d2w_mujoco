@@ -1,0 +1,196 @@
+<mujoco model="d2w_cables">
+    <compiler angle="radian" meshdir="asset/" texturedir="asset/" />
+    <option timestep="0.001" jacobian="dense">
+        <flag sensornoise="enable" />
+    </option>
+    <size njmax="10000" nconmax="300" nstack="500000" />
+    <visual>
+        <global offwidth="800" offheight="800" />
+        <quality shadowsize="4096" />
+        <map stiffness="700" force="0.1" fogstart="10" fogend="15" zfar="30" shadowscale="0.5" />
+        <rgba haze="0.15 0.25 0.4 1" />
+    </visual>
+    <statistic meansize="0.05" extent="1.5" />
+    <default class="main">
+        <general ctrllimited="true" ctrlrange="-1 1" />
+        <default class="body">
+            <joint limited="true" solimplimit="0 0.99 0.01 0.5 2" stiffness="1" armature="0.01" damping="0.2" />
+            <geom type="capsule" condim="1" friction="0.7 0.005 0.0001" solref="0.015 1" solimp="0.9 0.99 0.003 0.5 2" material="body" />
+            <default class="big_joint">
+                <joint stiffness="10" damping="5" />
+                <default class="big_stiff_joint">
+                    <joint stiffness="20" />
+                </default>
+            </default>
+        </default>
+    </default>
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072" />
+        <texture type="2d" name="texplane" builtin="checker" mark="cross" rgb1="0.2 0.3 0.4" rgb2="0.1 0.15 0.2" markrgb="0.8 0.8 0.8" width="512" height="512" />
+        <texture type="2d" name="texcarpet" file="carpet.png" />
+        <texture type="2d" name="texsponge" file="sponge.png" />
+        <texture type="cube" name="texmarble" file="marble.png" />
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072" />
+        <texture type="cube" name="body" builtin="flat" mark="cross" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" width="127" height="762" />
+        <texture type="2d" name="grid" builtin="checker" rgb1="0.1 0.2 0.3" rgb2="0.2 0.3 0.4" width="512" height="512" />
+        <material name="matplane" texture="texplane" texuniform="true" reflectance="0.3" />
+        <material name="matcarpet" texture="texcarpet" />
+        <material name="matsponge" texture="texsponge" specular="0.3" />
+        <material name="matmarble" texture="texmarble" rgba="0.7 0.7 0.7 1" />
+        <material name="body" texture="body" texuniform="true" rgba="0.8 0.6 0.4 1" />
+        <material name="grid" texture="grid" texuniform="true" reflectance="0.2" />
+    </asset>
+    <worldbody>
+        <geom name="ground" size="0 0 1" type="plane" condim="1" material="matplane" />
+        <light pos="0 0 5" dir="0 0 -1" directional="true" castshadow="false" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1" />
+        <light pos="0 0 4" dir="0 0 -1" directional="true" diffuse="0.6 0.6 0.6" specular="0.2 0.2 0.2" />
+        <body name="mastil_0" pos="0 0 0.7" quat="0.707107 0 0.707107 0">
+            <inertial pos="0 0 0" mass="1000" diaginertia="1.66667 164.167 164.167" />
+            <geom size="0.7 0.05 0.05" type="box" />
+            <body name="b_winch_0" pos="-0.7 0.12 0">
+                <inertial pos="0 0 5.15464e-05" quat="0.5 0.5 -0.5 0.5" mass="0.228551" diaginertia="0.00040718 0.000256604 0.000256604" />
+                <joint name="winch_0" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" />
+                <geom size="0.005 0.015" pos="0 0 0.005" quat="0 1 0 0" type="cylinder" condim="6" priority="2" solimp="0.9 0.99 0.003 0.5 2" />
+                <geom size="0.06 0.005" pos="0 0 -0.015" type="cylinder" condim="6" priority="2" />
+                <geom size="0.06 0.005" pos="0 0 0.015" quat="0 1 0 0" type="cylinder" condim="6" priority="2" />
+                <body name="B10" pos="0 0 0">
+                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                    <geom name="G10" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                    <body name="B11" pos="0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="J0_11" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                        <joint name="J1_11" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                        <geom name="G11" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                        <body name="B12" pos="0.04 0 0">
+                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                            <joint name="J0_12" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                            <joint name="J1_12" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                            <geom name="G12" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                            <body name="B13" pos="0.04 0 0">
+                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                <joint name="J0_13" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                <joint name="J1_13" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                <geom name="G13" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                <body name="B14" pos="0.04 0 0">
+                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                    <joint name="J0_14" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                    <joint name="J1_14" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                    <geom name="G14" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                    <body name="B15" pos="0.04 0 0">
+                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                        <joint name="J0_15" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                        <joint name="J1_15" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                        <geom name="G15" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                        <body name="B16" pos="0.04 0 0">
+                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                            <joint name="J0_16" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                            <joint name="J1_16" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                            <geom name="G16" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                            <body name="B17" pos="0.04 0 0">
+                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                <joint name="J0_17" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                <joint name="J1_17" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                <geom name="G17" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                <body name="B18" pos="0.04 0 0">
+                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                    <joint name="J0_18" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                    <joint name="J1_18" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                    <geom name="G18" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                    <body name="B19" pos="0.04 0 0">
+                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                        <joint name="J0_19" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                        <joint name="J1_19" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                        <geom name="G19" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                        <body name="B20" pos="0.04 0 0">
+                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                            <joint name="J0_20" pos="-0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                            <joint name="J1_20" pos="-0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                            <geom name="G20" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                    <body name="B9" pos="-0.04 0 0">
+                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                        <joint name="J0_9" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                        <joint name="J1_9" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                        <geom name="G9" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                        <body name="B8" pos="-0.04 0 0">
+                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                            <joint name="J0_8" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                            <joint name="J1_8" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                            <geom name="G8" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                            <body name="B7" pos="-0.04 0 0">
+                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                <joint name="J0_7" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                <joint name="J1_7" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                <geom name="G7" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                <body name="B6" pos="-0.04 0 0">
+                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                    <joint name="J0_6" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                    <joint name="J1_6" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                    <geom name="G6" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                    <body name="B5" pos="-0.04 0 0">
+                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                        <joint name="J0_5" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                        <joint name="J1_5" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                        <geom name="G5" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                        <body name="B4" pos="-0.04 0 0">
+                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                            <joint name="J0_4" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                            <joint name="J1_4" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                            <geom name="G4" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                            <body name="B3" pos="-0.04 0 0">
+                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                <joint name="J0_3" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                <joint name="J1_3" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                <geom name="G3" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                <body name="B2" pos="-0.04 0 0">
+                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                    <joint name="J0_2" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                    <joint name="J1_2" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                    <geom name="G2" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                    <body name="B1" pos="-0.04 0 0">
+                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                        <joint name="J0_1" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                        <joint name="J1_1" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                        <geom name="G1" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                        <body name="B0" pos="-0.04 0 0">
+                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="0.0125664" diaginertia="1.98968e-06 1.98968e-06 6.28319e-07" />
+                                                            <joint name="J0_0" pos="0.02 0 0" axis="0 1 0" group="3" damping="0.005" />
+                                                            <joint name="J1_0" pos="0.02 0 0" axis="0 0 1" group="3" damping="0.005" />
+                                                            <geom name="G0" size="0.01 0.015" quat="0.707107 0 0.707107 0" type="capsule" rgba="0.8 0.2 0.1 1" />
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+    <equality>
+        <weld body1="mastil_0" body2="world" relpose="0.7 0 0 0.707107 0 -0.707107 0" />
+        <weld body1="b_winch_0" body2="world" relpose="1.4 -0.12 0 0.707107 0 -0.707107 0" />
+    </equality>
+    <actuator>
+        <general name="winch_0" joint="winch_0" ctrlrange="-190 190" gear="75 0 0 0 0 0" />
+        <general name="winch_0_position" joint="winch_0" ctrlrange="0 400" biastype="affine" gainprm="100 0 0 0 0 0 0 0 0 0" biasprm="0 -100 0 0 0 0 0 0 0 0" />
+        <general name="winch_0_velocity" joint="winch_0" biastype="affine" gainprm="0 0 0 0 0 0 0 0 0 0" />
+    </actuator>
+    <sensor>
+        <jointpos joint="winch_0" />
+        <jointvel joint="winch_0" />
+    </sensor>
+</mujoco>
